@@ -1,0 +1,11 @@
+*/generated
+*/build
+node_modules
+**/node_modules/
+*/node_modules/
+node_modules
+*/node_modules
+*/generated
+*/build
+data
+tests
