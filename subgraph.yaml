@@ -1,0 +1,1170 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Bank
+    network: arbitrum-one
+    source:
+      address: "0x36a39a2F2461B68273000883e745C3f06cb77d63"
+      abi: Bank
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ClearFunds
+        - Deposit
+        - EmergencyHaltGame
+        - MaxWinChanged
+        - OwnershipTransferred
+        - PayFunds
+        - ReserveFunds
+        - UpdateGames
+        - UpdateGuardian
+        - UpdateUser
+        - Withdraw
+      abis:
+        - name: Bank
+          file: ./abis/Bank.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        - event: ClearFunds(indexed address,uint256)
+          handler: handleClearFunds
+        - event: Deposit(indexed address,uint256,uint256)
+          handler: handleDeposit
+        - event: EmergencyHaltGame(indexed address)
+          handler: handleEmergencyHaltGame
+        - event: MaxWinChanged(uint256,uint256)
+          handler: handleMaxWinChanged
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PayFunds(indexed address,indexed address,uint256)
+          handler: handlePayFunds
+        - event: ReserveFunds(indexed address,uint256)
+          handler: handleReserveFunds
+        - event: UpdateGames(indexed address,bool)
+          handler: handleUpdateGames
+        - event: UpdateGuardian(indexed address,bool)
+          handler: handleUpdateGuardian
+        - event: UpdateUser(indexed address,bool)
+          handler: handleUpdateUser
+        - event: Withdraw(indexed address,uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/bank.ts
+  - kind: ethereum
+    name: Referral
+    network: arbitrum-one
+    source:
+      address: "0xA5CeB6b71CD52053609Ba3a9A840a3BdAa60CB95"
+      abi: Referral
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - CreateReferralCode
+        - OwnershipTransferred
+        - UpdateCommission
+        - UpdateGame
+        - UpdateReferralCodeByUser
+      abis:
+        - name: Referral
+          file: ./abis/Referral.json
+      eventHandlers:
+        - event: CreateReferralCode(address,uint256,string)
+          handler: handleCreateReferralCode
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: UpdateCommission(uint256,uint256)
+          handler: handleUpdateCommission
+        - event: UpdateGame(address,bool)
+          handler: handleUpdateGame
+        - event: UpdateReferralCodeByUser(address,string)
+          handler: handleUpdateReferralCodeByUser
+      file: ./src/referral.ts
+  - kind: ethereum
+    name: DiceV1
+    network: arbitrum-one
+    source:
+      address: "0x66541E852dd7D1cEd80a26336BE0dB93EafCD9bB"
+      abi: DiceV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: DiceV1
+          file: ./abis/Dice/DiceV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Dice/diceV1.ts
+  - kind: ethereum
+    name: RouletteV1
+    network: arbitrum-one
+    source:
+      address: "0x465F01Ee8bcaA8576f39C9de45572CbCe962A49b"
+      abi: RouletteV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: RouletteV1
+          file: ./abis/Roulette/RouletteV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Roulette/rouletteV1.ts
+  - kind: ethereum
+    name: CoinflipV1
+    network: arbitrum-one
+    source:
+      address: "0x634b1058568f40F198beC13369aCdDC3B94B8682"
+      abi: CoinflipV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: CoinflipV1
+          file: ./abis/Coinflip/CoinflipV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Coinflip/coinflipV1.ts
+  - kind: ethereum
+    name: FortuneRollV1
+    network: arbitrum-one
+    source:
+      address: "0x4CD1e35b1F8aB241b77E0639E32A1Fe533600cc9"
+      abi: FortuneRollV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: FortuneRollV1
+          file: ./abis/FortuneRoll/FortuneRollV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/FortuneRoll/fortunerollV1.ts
+  - kind: ethereum
+    name: RpsV1
+    network: arbitrum-one
+    source:
+      address: "0x79a816F9E5472BC03d3D3456b5136a088e783896"
+      abi: RpsV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: RpsV1
+          file: ./abis/Rps/RpsV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Rps/rpsV1.ts
+  - kind: ethereum
+    name: DiceV1randomizer
+    network: arbitrum-one
+    source:
+      address: "0x2c86008904F405361fac40A414930d0E4C5332EA"
+      abi: DiceV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: DiceV1
+          file: ./abis/Dice/DiceV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Dice/diceV1.ts
+  - kind: ethereum
+    name: RouletteV1randomizer
+    network: arbitrum-one
+    source:
+      address: "0x1eD1692ACcDFd0F1da2a7749C8f1df1DF0Cc3303"
+      abi: RouletteV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: RouletteV1
+          file: ./abis/Roulette/RouletteV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Roulette/rouletteV1.ts
+  - kind: ethereum
+    name: CoinflipV1randomizer
+    network: arbitrum-one
+    source:
+      address: "0xD151BB672518033192F2dF9a0E93981085bA179c"
+      abi: CoinflipV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: CoinflipV1
+          file: ./abis/Coinflip/CoinflipV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Coinflip/coinflipV1.ts
+  - kind: ethereum
+    name: FortuneRollV1randomizer
+    network: arbitrum-one
+    source:
+      address: "0x851a5De6b7c9bFf75E4A7deA6Ad40637B9528747"
+      abi: FortuneRollV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: FortuneRollV1
+          file: ./abis/FortuneRoll/FortuneRollV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/FortuneRoll/fortunerollV1.ts
+  - kind: ethereum
+    name: RpsV1randomizer
+    network: arbitrum-one
+    source:
+      address: "0x776CcC6eABb77E20cf06D5Ef6d54962D83b3f33b"
+      abi: RpsV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: RpsV1
+          file: ./abis/Rps/RpsV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Rps/rpsV1.ts
+  - kind: ethereum
+    name: DiceV1randomizerbis
+    network: arbitrum-one
+    source:
+      address: "0x8b4eC01DAD036B81aF0909d87050A13EEEd2ac95"
+      abi: DiceV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: DiceV1
+          file: ./abis/Dice/DiceV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Dice/diceV1.ts
+  - kind: ethereum
+    name: RouletteV1randomizerbis
+    network: arbitrum-one
+    source:
+      address: "0x5528D192766e342983C7309D3137757C216CCcf9"
+      abi: RouletteV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: RouletteV1
+          file: ./abis/Roulette/RouletteV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Roulette/rouletteV1.ts
+  - kind: ethereum
+    name: CoinflipV1randomizerbis
+    network: arbitrum-one
+    source:
+      address: "0x4e9f21c605D36AaC209C55Db1fc169345777a261"
+      abi: CoinflipV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: CoinflipV1
+          file: ./abis/Coinflip/CoinflipV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/Coinflip/coinflipV1.ts
+  - kind: ethereum
+    name: FortuneRollV1randomizerbis
+    network: arbitrum-one
+    source:
+      address: "0xd32f0DC00A4048D677E3d7Aed6e1bC310Ba119e5"
+      abi: FortuneRollV1
+      startBlock: 68634717
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # - DeductVRFFee
+        # - EmergencyHalted
+        # - EmergencyStopped
+        - NewBet
+        - NewBetResult
+        # - OwnershipTransferred
+        # - ReceiveRandomness
+        # - RequestRandomness
+        # - TopUpVRF
+        # - UpdateBankroll
+        # - UpdateChainlinkSettings
+        # - UpdateFeeRouter
+        # - UpdateGameSettings
+        # - UpdateGasStation
+        # - UpdateGuardian
+        # - UpdateMinBet
+        # - UpdateReferral
+        # - UpdateSwapImplementation
+      abis:
+        - name: FortuneRollV1
+          file: ./abis/FortuneRoll/FortuneRollV1.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+      eventHandlers:
+        # - event: DeductVRFFee(uint256,uint256)
+        #   handler: handleDeductVRFFee
+        # - event: EmergencyHalted()
+        #   handler: handleEmergencyHalted
+        # - event: EmergencyStopped()
+        #   handler: handleEmergencyStopped
+        - event: NewBet(indexed address,indexed uint256,address,uint256,uint256,uint256,uint256)
+          handler: handleNewBet
+        - event: NewBetResult(indexed address,indexed uint256,uint256,bool,uint256,uint256,address,uint256,uint256)
+          handler: handleNewBetResult
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: ReceiveRandomness(uint256,uint256[])
+        #   handler: handleReceiveRandomness
+        # - event: RequestRandomness(uint256,uint32)
+        #   handler: handleRequestRandomness
+        # - event: TopUpVRF(uint256)
+        #   handler: handleTopUpVRF
+        # - event: UpdateBankroll(address)
+        #   handler: handleUpdateBankroll
+        # - event: UpdateChainlinkSettings(address,uint64,bytes32,uint256,uint256)
+        #   handler: handleUpdateChainlinkSettings
+        # - event: UpdateFeeRouter(address)
+        #   handler: handleUpdateFeeRouter
+        # - event: UpdateGameSettings(uint256)
+        #   handler: handleUpdateGameSettings
+        # - event: UpdateGasStation(address)
+        #   handler: handleUpdateGasStation
+        # - event: UpdateGuardian(address,bool)
+        #   handler: handleUpdateGuardian
+        # - event: UpdateMinBet(address)
+        #   handler: handleUpdateMinBet
+        # - event: UpdateReferral(address)
+        #   handler: handleUpdateReferral
+        # - event: UpdateSwapImplementation(address)
+        #   handler: handleUpdateSwapImplementation
+      file: ./src/FortuneRoll/fortunerollV1.ts
